@@ -227,6 +227,99 @@
             text-decoration: none;
         }
 
+        /* ========= 背景设定折叠面板专用样式 ========= */
+        .bg-setting-wrapper {
+            margin: 1.5rem 0 1rem 0;
+            border-radius: 1.2rem;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 0.2rem 0.2rem 0.2rem 0.2rem;
+            transition: all 0.2s;
+        }
+        
+        .collapsible-header {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 28px;
+            transition: color 0.2s;
+            margin-bottom: 0.25rem;
+        }
+        
+        .collapsible-header:hover {
+            color: #ffe0a3;
+            text-shadow: 0 0 2px rgba(255,200,100,0.3);
+        }
+        
+        .collapsible-header::after {
+            content: "▶";
+            font-size: 1rem;
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.2s ease, content 0.2s;
+            color: #ffcd94;
+            font-weight: normal;
+        }
+        
+        .collapsible-header.expanded::after {
+            content: "▼";
+            transform: translateY(-50%);
+        }
+        
+        .fold-hint {
+            font-size: 0.85rem;
+            color: #ddcca5;
+            margin: -0.2rem 0 1rem 0;
+            padding-left: 0.2rem;
+            border-left: 2px solid rgba(255,200,120,0.5);
+            padding-left: 10px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .collapsible-content {
+            display: none;
+            margin-top: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: rgba(20, 18, 22, 0.6);
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            border-left: 3px solid #e6b46b;
+            transition: all 0.2s;
+        }
+        
+        .collapsible-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .collapsible-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .collapsible-content strong {
+            color: #ffdaa5;
+            font-weight: 600;
+        }
+        
+        .qa-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        
+        /* 窄屏优化 */
+        @media (max-width: 800px) {
+            .collapsible-header::after {
+                right: 4px;
+                font-size: 0.9rem;
+            }
+            .collapsible-content {
+                padding: 0.6rem 1rem;
+            }
+        }
+
         .nav-arrow {
             position: fixed;
             top: 50%;
@@ -580,7 +673,7 @@
     </div>
 </div>
 
-<!-- 语言切换栏会由js动态生成，便于后续扩展韩文/日文等 -->
+<!-- 语言切换栏 -->
 <div class="lang-switch" id="langSwitchContainer"></div>
 
 <div class="user-profile">
@@ -637,11 +730,9 @@
 
 <script>
     // ======================= 多语言资源 (可方便扩展韩文/日文) =======================
-    // 支持的语言列表及显示标签 (未来增加语言只需在此添加，并补充下方resources对应条目)
     const SUPPORTED_LANGS = [
         { code: 'zh', label: '中文' },
         { code: 'en', label: 'English' }
-        // 未来增加语言示例: { code: 'ja', label: '日本語' }, { code: 'ko', label: '한국어' }
     ];
 
     const resources = {
@@ -664,6 +755,20 @@
                         <li>B站@伊水_Uryan</li>
                         <li>在<a href="https://www.bilibili.com/video/BV1BeQPBTEGR" target="_blank" rel="noopener noreferrer">本视频</a>评论区留言</li>
                     </ul>
+                    <!-- 背景设定折叠区域 (中文独有) -->
+                    <div class="bg-setting-wrapper">
+                        <h3 class="collapsible-header">📖 背景设定</h3>
+                        <p class="fold-hint">不看也不影响打游戏，推荐打完再回来看。</p>
+                        <div class="collapsible-content">
+                            <div class="qa-block">
+                                <p><strong>Q：这个同人游戏的故事背景是什么？</strong><br>A：是3.6主线末尾再创世之前的一小段时间。</p>
+                                <p><strong>Q：万敌在337轮回真的是智种学派毕业的吗？</strong><br>A：官设没说。<br>但本游戏是延续的我的动画系列，在我的动画系列中，私设他在337轮回为了研究铸魂术决定去智种学派求学。</p>
+                                <p><strong>Q：蜜果羹迷这只小妖精是什么来头？</strong><br>A：在官设里，它只是一只用头像打酱油的妖精，在活动里负责做饭，名字是万敌起的。<br>但因为它是蓝毛+金瞳，名字还是万敌起的，我突然醍醐灌顶——万敌给一只蓝毛金眼睛的妖精起名“蜜果羹迷”跟万敌给一只小白羊起名“万敌厨”有什么区别！所以拿过来用。</p>
+                                <p><strong>Q：迷迷和万敌为什么这么熟的样子？</strong><br>A：为什么不熟！开拓者在336轮回只是经过了那么短的时间就和黄金裔很熟了，迷迷可是全程跟在开拓者旁边的，她就已经有熟稔的基础了！或者说，迷迷在3.1就会找遐蝶玩，在3.2看见开拓者快死了会到处找黄金裔求救，在3.3会跟白厄有说有笑，她在迷迷的时候跟黄金裔就已经不是陌生人了！<br>接着在337轮回，迷迷化作昔涟，作为计划的制定者+最后一棒的接力者与黄金裔一起度过了一千年！为什么不熟！那可是！一！千！年！！<br>真该死。我根本搞不懂编剧在3.7一副“和黄金裔共度一个轮回的是昔涟不是迷迷所以他们不熟”的模样是什么狗屁。昔涟是共度了一个轮回，那迷迷是共度了1.1个轮回啊！！！米氏数学，1<1.1是吧！</p>
+                                <p><strong>Q：为什么设定为不能战斗？</strong><br>A：答案显而易见.jpg</p>
+                            </div>
+                        </div>
+                    </div>
                     <h3>📌 后续计划</h3>
                     <ul>
                         <li>下次更新将做完剩下的两关等所有没做完的内容，放出完整版。</li>
@@ -678,7 +783,6 @@
             }
         },
         en: {
-            // 第二行文字使用 span 缩小字体，满足需求
             desc: "EN demo is currently testing! Click the button on the RIGHT for more info→<br><span style='font-size:1rem; opacity:0.9; display:inline-block; margin-top:4px;'>(NOT these↙↓↘ button, there are all CN demo)</span>",
             logoFile: "images/logo-en.png",
             info: {
@@ -705,9 +809,6 @@
                 win: { text: "Windows Download", note: "Download and play on Windows PC" }
             }
         }
-        // 未来添加日语/韩语示例 (只需补充代码和对应资源，语言按钮会自动出现)
-        // ja: { desc: "...", logoFile: "images/logo-ja.png", info: {...}, buttons: {...} }
-        // ko: { desc: "...", logoFile: "images/logo-ko.png", info: {...}, buttons: {...} }
     };
 
     let currentLang = 'zh';
@@ -723,7 +824,6 @@
     const infoBoxContent = document.getElementById('infoBoxContent');
     const winDownloadBtn = document.getElementById('winDownloadBtn');
     
-    // 按钮文本与备注元素
     const itchBtnTextSpan = document.querySelector('#itchBtn .btn-text');
     const githubBtnTextSpan = document.querySelector('#githubBtn .btn-text');
     const winBtnTextSpan = document.querySelector('#winDownloadBtn .btn-text');
@@ -731,29 +831,56 @@
     const githubNoteDiv = document.getElementById('githubNote');
     const winNoteDiv = document.getElementById('winNote');
 
-    // 更新所有UI文本 (描述、logo、信息面板、按钮文字+说明)
+    // 折叠面板全局事件委托 (在infoBody内处理背景设定折叠)
+    function bindCollapsibleDelegate() {
+        // 为了避免重复绑定，使用一次性委托，但只需全局绑定一次
+        if (window._collapsibleBound) return;
+        window._collapsibleBound = true;
+        document.body.addEventListener('click', (e) => {
+            const header = e.target.closest('.collapsible-header');
+            if (!header) return;
+            const wrapper = header.closest('.bg-setting-wrapper');
+            if (!wrapper) return;
+            const content = wrapper.querySelector('.collapsible-content');
+            if (!content) return;
+            e.preventDefault();
+            e.stopPropagation();
+            const isExpanded = header.classList.contains('expanded');
+            if (isExpanded) {
+                header.classList.remove('expanded');
+                content.style.display = 'none';
+            } else {
+                header.classList.add('expanded');
+                content.style.display = 'block';
+            }
+        });
+    }
+
+    // 更新所有UI文本
     function updateLanguage() {
         const langData = resources[currentLang];
         if (!langData) return;
         
-        // 更新描述（支持HTML）
         if (descTextElem) descTextElem.innerHTML = langData.desc;
-        
-        // 更新主logo
         if (mainLogo) {
             mainLogo.src = langData.logoFile;
             mainLogo.onerror = () => console.warn(`Logo加载失败: ${langData.logoFile}`);
         }
         
-        // 更新右侧信息面板
         if (infoBoxContent) {
             infoBoxContent.innerHTML = `
                 <h2 id="infoTitle">${langData.info.title}</h2>
                 <div id="infoBody">${langData.info.body}</div>
             `;
+            // 重置所有折叠面板状态 (中文默认折叠)
+            if (currentLang === 'zh') {
+                const allHeaders = document.querySelectorAll('#infoBody .collapsible-header');
+                const allContents = document.querySelectorAll('#infoBody .collapsible-content');
+                allHeaders.forEach(h => h.classList.remove('expanded'));
+                allContents.forEach(c => c.style.display = 'none');
+            }
         }
         
-        // 更新三个按钮的文字和说明
         if (itchBtnTextSpan) itchBtnTextSpan.textContent = langData.buttons.itch.text;
         if (githubBtnTextSpan) githubBtnTextSpan.textContent = langData.buttons.github.text;
         if (winBtnTextSpan) winBtnTextSpan.textContent = langData.buttons.win.text;
@@ -762,7 +889,6 @@
         if (winNoteDiv) winNoteDiv.textContent = langData.buttons.win.note;
     }
     
-    // 页面切换逻辑
     function showHomePage() {
         pageHome.style.display = 'flex';
         pageInfo.style.display = 'none';
@@ -782,7 +908,6 @@
     function swipeToNext() { if (currentPage === 'home') showInfoPage(); }
     function swipeToPrev() { if (currentPage === 'info') showHomePage(); }
     
-    // 动态生成语言切换按钮 (支持未来扩展多语言)
     function buildLanguageSwitcher() {
         const container = document.getElementById('langSwitchContainer');
         if (!container) return;
@@ -796,7 +921,6 @@
             btn.addEventListener('click', (e) => {
                 if (currentLang === lang.code) return;
                 currentLang = lang.code;
-                // 更新所有按钮的active样式
                 document.querySelectorAll('#langSwitchContainer .lang-btn').forEach(btnEl => {
                     if (btnEl.getAttribute('data-lang') === currentLang) {
                         btnEl.classList.add('active');
@@ -810,12 +934,10 @@
         });
     }
     
-    // 初始化事件监听（导航箭头、Win下载）
     function initEventListeners() {
         arrowRight.addEventListener('click', swipeToNext);
         arrowLeft.addEventListener('click', swipeToPrev);
         
-        // Win下载按钮
         winDownloadBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const downloadUrl = 'https://github.com/UryanKarl/myphRPG-maze-webpage/releases/download/continuous-build/MyPhRPG-maze-win.zip';
@@ -827,13 +949,13 @@
             document.body.removeChild(link);
         });
         
-        // 避免点击按钮时触发导航箭头干扰（冒泡阻止）
         document.querySelectorAll('.game-btn').forEach(btn => {
             btn.addEventListener('click', (e) => e.stopPropagation());
         });
+        bindCollapsibleDelegate();
     }
     
-    // ========= 预加载 + 进度条 (保持原有稳健逻辑) =========
+    // ========= 预加载逻辑 (保持原样) =========
     function preloadAllImagesAndShowWebsite() {
         const overlay = document.getElementById('loading-overlay');
         const progressFill = document.getElementById('progressFill');
@@ -849,7 +971,6 @@
 
         const imageUrlSet = new Set();
 
-        // 背景图
         const bgImage = getComputedStyle(document.body).backgroundImage;
         if (bgImage && bgImage !== 'none') {
             const urlMatch = bgImage.match(/url\(["']?([^"')]+)["']?\)/);
@@ -860,7 +981,6 @@
             }
         }
 
-        // 所有 <img> 标签
         document.querySelectorAll('img').forEach(img => {
             if (img.src) {
                 try {
@@ -869,13 +989,7 @@
             }
         });
 
-        // 补充必要资源
-        const essentialUrls = [
-            'images/logo-cn.png',
-            'images/logo-en.png',
-            'images/avatar.png',
-            'images/loading-logo.png'
-        ];
+        const essentialUrls = ['images/logo-cn.png','images/logo-en.png','images/avatar.png','images/loading-logo.png'];
         essentialUrls.forEach(path => {
             try {
                 imageUrlSet.add(new URL(path, window.location.href).href);
@@ -908,7 +1022,6 @@
 
         const timeoutId = setTimeout(() => {
             if (!loadingCompleted) {
-                console.warn('预加载超时，强制结束');
                 loadedCount = totalCount;
                 updateProgress();
             }
@@ -942,22 +1055,16 @@
         updateProgress();
     }
     
-    // 站点完整初始化
     function initSite() {
-        buildLanguageSwitcher();   // 动态生成语言按钮，支持扩展
+        buildLanguageSwitcher();
         initEventListeners();
-        // 设置默认中文激活状态（语言按钮高亮在build时已根据currentLang处理）
-        updateLanguage();          // 根据currentLang('zh')刷新全部文本
+        updateLanguage();
         showHomePage();
-        
-        // 让info-box滚动友好
         const infoDiv = document.querySelector('.info-box');
         if(infoDiv) {
             infoDiv.style.overflowY = 'auto';
             infoDiv.style.maxHeight = '70vh';
         }
-        
-        // 头像容错
         const avatarImg = document.querySelector('.user-avatar');
         if(avatarImg) {
             avatarImg.addEventListener('error', function() {
@@ -968,11 +1075,10 @@
         }
     }
     
-    // 启动: 加载动画 + 预加载图片 + 初始化
     document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('loading-active');
-        initSite();                     // 初始化界面、语言、事件
-        preloadAllImagesAndShowWebsite(); // 资源加载进度条
+        initSite();
+        preloadAllImagesAndShowWebsite();
     });
     
     const loadingLogoImg = document.getElementById('loadingLogoImg');
